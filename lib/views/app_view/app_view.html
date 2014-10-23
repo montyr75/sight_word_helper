@@ -1,0 +1,167 @@
+<!-- Polymer Element HTML import links go here (above <polymer-element> tag) -->
+<link rel="import" href="../../../../packages/polymer/polymer.html">
+<link rel="import" href="../../../../packages/core_elements/core_scaffold.html">
+<link rel="import" href="../../../../packages/core_elements/core_header_panel.html">
+<link rel="import" href="../../../../packages/core_elements/core_drawer_panel.html">
+<link rel="import" href="../../../../packages/core_elements/core_toolbar.html">
+<link rel="import" href="../../../../packages/core_elements/core_menu.html">
+<link rel="import" href="../../../../packages/core_elements/core_item.html">
+<link rel="import" href="../../../../packages/core_elements/core_animated_pages.html">
+<link rel="import" href="../../../../packages/core_elements/src/core-animated-pages/transitions/cross-fade.html">
+<link rel="import" href="../../../../packages/core_elements/av_icons.html">
+<link rel="import" href="../../../../packages/paper_elements/paper_icon_button.html">
+
+<link rel="import" href="../../components/html_display/html_display.html">
+<link rel="import" href="../../components/index_iterator/index_iterator.html">
+
+
+<polymer-element name="app-view">
+  <template>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+
+    <style>
+      @font-face {
+        font-family: ABeeZee;
+        src: url("../../../../resources/fonts/ABeeZee-Regular.ttf");
+      }
+
+      :host {
+        height: 100%;
+      }
+
+      #drawer-header {
+        color: rgb(255, 255, 255);
+        background-color: rgb(79, 125, 201);
+      }
+
+      .menu-header-text {
+        font-size: 0.9em;
+      }
+
+      .content {
+        padding: 15px;
+      }
+
+      .box-container {
+        width: 400px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: white;
+      }
+
+      .user-select-none {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      img {
+        -moz-user-drag: -moz-none;
+        -webkit-user-drag: none;
+        user-drag: none;
+      }
+
+      .word-slide {
+        font-size: 75px;
+        font-family: 'ABeeZee', sans-serif;
+      }
+
+      #slideshow {
+        width: 400px;
+        height: 150px;
+        margin: 10px;
+      }
+
+      #phrase-list {
+        font-family: 'ABeeZee', sans-serif;
+        font-size: 24px;
+      }
+
+      .card {
+        background:#FFF;
+        border: 1px solid #AAA;
+        border-bottom: 3px solid #BBB;
+        padding: 30px;
+        text-align: center;
+      }
+    </style>
+
+    <!--
+      Scaffold
+      The scaffold contains a <core-drawer-panel>, a <core-header-panel>, and a <core-toolbar>.
+      Use attributes on the scaffold's children to indicate where they should be placed.
+      Elements with no scaffold attributes are "distributed" into the main content area (not in the scaffold's Shadow DOM).
+
+      Scaffold Attributes
+      responsiveWidth: The width at which the scaffold will automatically collapse the drawer panel (default: 600px)
+      mode: Sets the mode of the main area's <core-header-panel> (default: "seamed")
+
+      Scaffold Child Attributes
+      navigation: the element (0-1) marked with this attribute goes into the <core-drawer-panel>
+      tool: an element (0...) marked with this attribute is included in the main area's <core-toolbar>
+    -->
+
+    <core-scaffold>
+      <core-header-panel mode="seamed" navigation flex>
+        <core-toolbar id="drawer-header">
+          <span class="menu-header-text">Settings</span>
+        </core-toolbar>
+
+        <core-menu valueattr="label" theme="core-light-theme">
+          <core-item icon="toc" label="Item1"></core-item>
+          <core-item icon="shopping-cart" label="Item2"></core-item>
+        </core-menu>
+
+
+        <!--<form id="word-list-form" class="flexbox-column-nowrap" on-submit="{{submit}}">-->
+          <!--<polymer-selector id="word-list-selector" class="list-group" selectedClass="active" on-polymer-select="{{wordListSelected}}" multi="true">-->
+            <!--<template repeat="{{list in model.mapList | enumerate}}">-->
+              <!--<a class="list-group-item user-select-none" data-index="{{list.index}}">{{list.value['displayName']}} <span class="badge">{{list.value['wordList'].length}}</span></a>-->
+            <!--</template>-->
+          <!--</polymer-selector>-->
+
+          <!--<div id="ok_wrapper">-->
+            <!--<button id="update_btn" class="btn btn-primary" disabled?="{{model.selectedListIndexes.isEmpty}}" title="OK">-->
+              <!--<img src="{{model.images_path}}ok.png" class="btn-icon">-->
+            <!--</button>-->
+          <!--</div>-->
+        <!--</form>-->
+      </core-header-panel>
+
+      <div tool>Sight Word Helper</div>
+
+      <div class="content user-select-none" layout vertical center fit>
+        <index-iterator id="word-iterator" endIndex="{{model.wordList.length - 1}}" loop on-index-changed="{{slideshowIndexChanged}}"></index-iterator>
+        <core-animated-pages id="slideshow" selected="{{wordDisplayIterator.index}}" layout vertical>
+          <template repeat="{{word in model.wordList}}">
+            <section layout vertical center-center>
+              <div class="card" fit>
+                <div class="word-slide" is="html-display" htmlContent="{{word}}"></div>
+              </div>
+            </section>
+          </template>
+        </core-animated-pages>
+
+        <div layout horizontal center class="box-container">
+          <progress min="0" max="{{model.wordList.length - 1}}" value="{{wordDisplayIterator.index}}"></progress>
+
+          <span flex></span>
+
+          <paper-icon-button icon="av:skip-previous" on-tap="{{prevSlide}}"></paper-icon-button>
+          <paper-icon-button icon="av:skip-next" on-tap="{{nextSlide}}"></paper-icon-button>
+        </div>
+
+        <ul id="phrase-list" style="margin-top: 20px;" class="list-group">
+          <template repeat="{{phrase in model.phraseList}}">
+            <li class="list-group-item"><div is="html-display" htmlContent="{{phrase}}"></div></li>
+          </template>
+        </ul>
+      </div>
+    </core-scaffold>
+  </template>
+
+  <script type="application/dart" src="app_view.dart"></script>
+</polymer-element>
