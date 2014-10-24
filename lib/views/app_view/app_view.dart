@@ -12,6 +12,7 @@ class AppView extends PolymerElement {
 
   @observable Model model = new Model();
   @observable IndexIterator wordDisplayIterator;
+  @observable bool submitEnabled = true;
 
   // non-visual initialization can be done here
   AppView.created() : super.created() {
@@ -44,22 +45,13 @@ class AppView extends PolymerElement {
     model.updatePhraseList(model.wordList[detail]);
   }
 
-//  void wordListSelected(Event event, var detail, PolymerSelector target) {
-//    // use detail["isSelected"] to determine if a list is being selected or deselected
-//
-//    // gotta check the selectedIndex async-style to allow the bindings to update (target.selectedIndex)
-//    Timer.run(() {
-//      print("SettingsView::wordListSelected()");
-//
-//      if (target.selectedItem != null) {
-//        model.selectedListIndexes = target.selectedItem.map((Element el) => int.parse(el.dataset['index'])).toList();
-//      }
-//    });
-//  }
+  void wordListSelectionChanged(Event event, var detail, Element target) {
+    submitEnabled = model.mapList.any((Map list) => list['selected']);
+  }
 
-  void submit(Event event, var detail, Element target) {
-    // prevent app reload on <form> submission
-    event.preventDefault();
+  void updateWordList(Event event, var detail, Element target) {
+    $['scaffold'].togglePanel();
+    model.updateWordList();
   }
 }
 

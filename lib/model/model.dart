@@ -14,7 +14,6 @@ class Model extends Object with Observable {
   // event streams
   StreamController _onWordListUpdated = new StreamController.broadcast();
 
-  @observable List<int> selectedListIndexes = [0];        // list of indexes into mapList
   @observable List<Map> mapList;
   List<String> phrases;
   @observable List<String> wordList;    // current working word list
@@ -37,14 +36,12 @@ class Model extends Object with Observable {
   }
 
   void updateWordList({bool random: true}) {
-    if (selectedListIndexes == null || selectedListIndexes.isEmpty) {
-      return;
-    }
-
     List<String> newWordList = [];
 
-    selectedListIndexes.forEach((int i) {
-      newWordList.addAll(mapList[i]['wordList']);
+    mapList.forEach((Map list) {
+      if (list['selected']) {
+        newWordList.addAll(list['wordList']);
+      }
     });
 
     if (random) {

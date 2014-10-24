@@ -10,6 +10,8 @@
 <link rel="import" href="../../../../packages/core_elements/src/core-animated-pages/transitions/cross-fade.html">
 <link rel="import" href="../../../../packages/core_elements/av_icons.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_icon_button.html">
+<link rel="import" href="../../../../packages/paper_elements/paper_checkbox.html">
+<link rel="import" href="../../../../packages/paper_elements/paper_button.html">
 
 <link rel="import" href="../../components/html_display/html_display.html">
 <link rel="import" href="../../components/index_iterator/index_iterator.html">
@@ -35,7 +37,7 @@
       }
 
       .menu-header-text {
-        font-size: 0.9em;
+        font-size: 0.8em;
       }
 
       .content {
@@ -104,47 +106,39 @@
       tool: an element (0...) marked with this attribute is included in the main area's <core-toolbar>
     -->
 
-    <core-scaffold>
+    <core-scaffold id="scaffold" responsiveWidth="700px">
       <core-header-panel mode="seamed" navigation flex>
         <core-toolbar id="drawer-header">
-          <span class="menu-header-text">Settings</span>
+          <span class="menu-header-text">Word Lists</span>
         </core-toolbar>
 
-        <core-menu valueattr="label" theme="core-light-theme">
-          <core-item icon="toc" label="Item1"></core-item>
-          <core-item icon="shopping-cart" label="Item2"></core-item>
-        </core-menu>
+        <!--<core-menu valueattr="label" theme="core-light-theme">-->
+          <!--<core-item icon="toc" label="Item1"></core-item>-->
+          <!--<core-item icon="shopping-cart" label="Item2"></core-item>-->
+        <!--</core-menu>-->
 
 
-        <!--<form id="word-list-form" class="flexbox-column-nowrap" on-submit="{{submit}}">-->
+        <div id="word-list-form" layout vertical>
+          <template repeat="{{list in model.mapList}}">
+            <div layout horizontal center style="margin: 15px;" on-change="{{wordListSelectionChanged}}">
+              <paper-checkbox class="word-list-checkbox" style="margin-right: 15px;" checked="{{list['selected']}}"></paper-checkbox>
+              <div layout horizontal flex><span flex>{{list['displayName']}}</span> <span class="badge">{{list['wordList'].length}}</span></div>
+            </div>
+          </template>
+
           <!--<polymer-selector id="word-list-selector" class="list-group" selectedClass="active" on-polymer-select="{{wordListSelected}}" multi="true">-->
             <!--<template repeat="{{list in model.mapList | enumerate}}">-->
               <!--<a class="list-group-item user-select-none" data-index="{{list.index}}">{{list.value['displayName']}} <span class="badge">{{list.value['wordList'].length}}</span></a>-->
             <!--</template>-->
           <!--</polymer-selector>-->
 
-          <!--<div id="ok_wrapper">-->
-            <!--<button id="update_btn" class="btn btn-primary" disabled?="{{model.selectedListIndexes.isEmpty}}" title="OK">-->
-              <!--<img src="{{model.images_path}}ok.png" class="btn-icon">-->
-            <!--</button>-->
-          <!--</div>-->
-        <!--</form>-->
+          <paper-button on-tap="{{updateWordList}}" disabled?="{{!submitEnabled}}">Submit</paper-button>
+        </div>
       </core-header-panel>
 
       <div tool>Sight Word Helper</div>
 
       <div class="content user-select-none" layout vertical center fit>
-        <index-iterator id="word-iterator" endIndex="{{model.wordList.length - 1}}" loop on-index-changed="{{slideshowIndexChanged}}"></index-iterator>
-        <core-animated-pages id="slideshow" selected="{{wordDisplayIterator.index}}" layout vertical>
-          <template repeat="{{word in model.wordList}}">
-            <section layout vertical center-center>
-              <div class="card" fit>
-                <div class="word-slide" is="html-display" htmlContent="{{word}}"></div>
-              </div>
-            </section>
-          </template>
-        </core-animated-pages>
-
         <div layout horizontal center class="box-container">
           <progress min="0" max="{{model.wordList.length - 1}}" value="{{wordDisplayIterator.index}}"></progress>
 
@@ -153,6 +147,17 @@
           <paper-icon-button icon="av:skip-previous" on-tap="{{prevSlide}}"></paper-icon-button>
           <paper-icon-button icon="av:skip-next" on-tap="{{nextSlide}}"></paper-icon-button>
         </div>
+
+        <index-iterator id="word-iterator" endIndex="{{model.wordList.length - 1}}" loop on-index-changed="{{slideshowIndexChanged}}"></index-iterator>
+        <core-animated-pages id="slideshow" selected="{{wordDisplayIterator.index}}" style="margin-top: 20px;" layout vertical>
+          <template repeat="{{word in model.wordList}}">
+            <section layout vertical center-center>
+              <div class="card" fit>
+                <div class="word-slide" is="html-display" htmlContent="{{word}}"></div>
+              </div>
+            </section>
+          </template>
+        </core-animated-pages>
 
         <ul id="phrase-list" style="margin-top: 20px;" class="list-group">
           <template repeat="{{phrase in model.phraseList}}">
