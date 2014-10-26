@@ -12,9 +12,9 @@
 <link rel="import" href="../../../../packages/paper_elements/paper_icon_button.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_checkbox.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_button.html">
-
 <link rel="import" href="../../components/html_display/html_display.html">
 <link rel="import" href="../../components/index_iterator/index_iterator.html">
+<link rel="import" href="../../components/labeled_paper_checkbox/labeled_paper_checkbox.html">
 
 
 <polymer-element name="app-view">
@@ -133,6 +133,8 @@
           <!--</polymer-selector>-->
 
           <paper-button on-tap="{{updateWordList}}" disabled?="{{!submitEnabled}}">Submit</paper-button>
+
+          <labeled-paper-checkbox checked="{{testCheck}}">Label</labeled-paper-checkbox>
         </div>
       </core-header-panel>
 

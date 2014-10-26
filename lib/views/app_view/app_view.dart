@@ -14,6 +14,8 @@ class AppView extends PolymerElement {
   @observable IndexIterator wordDisplayIterator;
   @observable bool submitEnabled = true;
 
+  @observable bool testCheck = true;
+
   // non-visual initialization can be done here
   AppView.created() : super.created() {
     model.onWordListUpdated.listen((_) {
@@ -27,6 +29,10 @@ class AppView extends PolymerElement {
     print("$CLASS_NAME::attached()");
 
     wordDisplayIterator = $["word-iterator"];
+  }
+
+  testCheckChanged(oldValue) {
+    print("testCheckChanged - $testCheck");
   }
 
   void nextSlide(Event event, var detail, Element target) {

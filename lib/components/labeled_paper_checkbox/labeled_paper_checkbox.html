@@ -1,0 +1,24 @@
+<!-- Polymer Element HTML import links go here (above <polymer-element> tag) -->
+<link rel="import" href="../../../../packages/polymer/polymer.html">
+<link rel="import" href="../../../../packages/paper_elements/paper_checkbox.html">
+
+<polymer-element name="labeled-paper-checkbox">
+  <template>
+    <style>
+      paper-checkbox {
+        margin-right: 15px;
+      }
+
+      #label {
+        cursor: pointer;
+      }
+    </style>
+
+    <div layout horizontal center>
+      <paper-checkbox id="checkbox" checked="{{checked}}"></paper-checkbox>
+      <span id="label" flex on-tap="{{toggleChecked}}"><content></content></span>
+    </div>
+  </template>
+
+  <script type="application/dart" src="labeled_paper_checkbox.dart"></script>
+</polymer-element>
