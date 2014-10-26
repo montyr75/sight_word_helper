@@ -1,22 +1,27 @@
 <!-- Polymer Element HTML import links go here (above <polymer-element> tag) -->
 <link rel="import" href="../../../../packages/polymer/polymer.html">
 <link rel="import" href="../../../../packages/paper_elements/paper_checkbox.html">
+<link rel="import" href="../../../../packages/paper_elements/paper_ripple.html">
 
 <polymer-element name="labeled-paper-checkbox">
   <template>
     <style>
-      paper-checkbox {
-        margin-right: 15px;
-      }
-
       #label {
         cursor: pointer;
+        padding: 0.7em 0.85em;
       }
-    </style>
+
+      paper-checkbox::shadow #ink, paper-checkbox::shadow #ink[checked], paper-ripple {
+        color: #4285f4;
+      }
+   </style>
 
     <div layout horizontal center>
       <paper-checkbox id="checkbox" checked="{{checked}}"></paper-checkbox>
-      <span id="label" flex on-tap="{{toggleChecked}}"><content></content></span>
+      <span id="label" flex relative on-tap="{{toggleChecked}}">
+        <paper-ripple id="ripple" fit class="recenteringTouch"></paper-ripple>
+        <content></content>
+      </span>
     </div>
   </template>
 
