@@ -21,7 +21,7 @@ class Model extends Object with Observable {
 
   Model() {
     Future wordsFuture = HttpRequest.getString(WORD_DATA_URL).then((String fileContents) {
-      mapList = JSON.decode(fileContents);
+      mapList = toObservable(JSON.decode(fileContents));
     })
     .catchError((Error error) => print(error));
 

@@ -52,6 +52,8 @@ class AppView extends PolymerElement {
   }
 
   void wordListSelectionChanged(Event event, var detail, Element target) {
+    print("$CLASS_NAME::wordListSelectionChanged()");
+
     submitEnabled = model.mapList.any((Map list) => list['selected']);
   }
 

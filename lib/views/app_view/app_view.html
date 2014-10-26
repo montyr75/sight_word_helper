@@ -120,33 +120,25 @@
 
         <div id="word-list-form" layout vertical>
           <template repeat="{{list in model.mapList}}">
-            <div layout horizontal center style="margin: 15px;" on-change="{{wordListSelectionChanged}}">
-              <paper-checkbox class="word-list-checkbox" style="margin-right: 15px;" checked="{{list['selected']}}"></paper-checkbox>
-              <div layout horizontal flex><span flex>{{list['displayName']}}</span> <span class="badge">{{list['wordList'].length}}</span></div>
-            </div>
+            <labeled-paper-checkbox checked="{{list['selected']}}" style="margin: 0 15px;" on-core-change="{{wordListSelectionChanged}}">
+              <div layout horizontal center>
+                <span flex>{{list['displayName']}}</span> <span class="badge">{{list['wordList'].length}}</span>
+              </div>
+            </labeled-paper-checkbox>
           </template>
 
-          <!--<polymer-selector id="word-list-selector" class="list-group" selectedClass="active" on-polymer-select="{{wordListSelected}}" multi="true">-->
-            <!--<template repeat="{{list in model.mapList | enumerate}}">-->
-              <!--<a class="list-group-item user-select-none" data-index="{{list.index}}">{{list.value['displayName']}} <span class="badge">{{list.value['wordList'].length}}</span></a>-->
-            <!--</template>-->
-          <!--</polymer-selector>-->
-
           <paper-button on-tap="{{updateWordList}}" disabled?="{{!submitEnabled}}">Submit</paper-button>
-
-          <labeled-paper-checkbox checked="{{testCheck}}"><div layout horizontal center><span flex>Label</span> <span class="badge">5</span></div></labeled-paper-checkbox>
         </div>
       </core-header-panel>
 
       <div tool>Sight Word Helper</div>
 
       <div class="content user-select-none" layout vertical center fit>
-        <div layout horizontal center class="box-container">
+        <div layout horizontal center around-justified class="box-container">
+          <paper-icon-button icon="av:skip-previous" on-tap="{{prevSlide}}"></paper-icon-button>
+
           <progress min="0" max="{{model.wordList.length - 1}}" value="{{wordDisplayIterator.index}}"></progress>
 
-          <span flex></span>
-
-          <paper-icon-button icon="av:skip-previous" on-tap="{{prevSlide}}"></paper-icon-button>
           <paper-icon-button icon="av:skip-next" on-tap="{{nextSlide}}"></paper-icon-button>
         </div>
 
