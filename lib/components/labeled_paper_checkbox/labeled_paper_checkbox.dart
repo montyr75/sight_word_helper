@@ -13,10 +13,8 @@ class LabeledPaperCheckbox extends PolymerElement {
 
   PaperCheckbox cb;
 
-  // non-visual initialization can be done here
   LabeledPaperCheckbox.created() : super.created();
 
-  // life-cycle method called by the Polymer framework when the element is attached to the DOM
   @override void attached() {
     super.attached();
     print("$CLASS_NAME::attached()");
@@ -24,7 +22,6 @@ class LabeledPaperCheckbox extends PolymerElement {
     cb = $['checkbox'];
   }
 
-  // a sample event handler function
   void toggleChecked(Event event, var detail, Element target) {
     print("$CLASS_NAME::toggleChecked()");
 
