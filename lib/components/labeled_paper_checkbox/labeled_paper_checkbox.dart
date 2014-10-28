@@ -3,11 +3,10 @@ library labeled_paper_checkbox;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:paper_elements/paper_checkbox.dart';
+import '../../model/global.dart';
 
 @CustomTag('labeled-paper-checkbox')
 class LabeledPaperCheckbox extends PolymerElement {
-
-  static const String CLASS_NAME = "LabeledPaperCheckbox";
 
   @PublishedProperty(reflect: true) bool checked = false;
 
@@ -17,13 +16,13 @@ class LabeledPaperCheckbox extends PolymerElement {
 
   @override void attached() {
     super.attached();
-    print("$CLASS_NAME::attached()");
+    log.info("$runtimeType::attached()");
 
     cb = $['checkbox'];
   }
 
   void toggleChecked(Event event, var detail, Element target) {
-    print("$CLASS_NAME::toggleChecked()");
+    log.info("$runtimeType::toggleChecked()");
 
     cb.checked = !cb.checked;
   }

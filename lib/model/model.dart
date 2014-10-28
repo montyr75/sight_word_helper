@@ -1,6 +1,7 @@
 library model;
 
 import 'package:polymer/polymer.dart';
+import 'global.dart';
 import 'dart:html';
 import 'dart:convert';
 import 'dart:async';
@@ -23,12 +24,12 @@ class Model extends Object with Observable {
     Future wordsFuture = HttpRequest.getString(WORD_DATA_URL).then((String fileContents) {
       mapList = toObservable(JSON.decode(fileContents));
     })
-    .catchError((Error error) => print(error));
+    .catchError((Error error) => log.severe(error));
 
     Future phrasesFuture = HttpRequest.getString(PHRASE_DATA_URL).then((String fileContents) {
       phrases = JSON.decode(fileContents);
     })
-    .catchError((Error error) => print(error));
+    .catchError((Error error) => log.severe(error));
 
     Future.wait([wordsFuture, phrasesFuture]).then((_) {
       updateWordList();

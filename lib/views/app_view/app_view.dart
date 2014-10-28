@@ -2,13 +2,15 @@ library app_view;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';
+import '../../model/global.dart';
 import 'package:sight_word_helper/model/model.dart';
 import '../../components/index_iterator/index_iterator.dart';
 
 @CustomTag('app-view')
 class AppView extends PolymerElement {
 
-  static const String CLASS_NAME = "AppView";
+  // initialize system log
+  bool _logInitialized = initLog();
 
   @observable Model model = new Model();
   @observable IndexIterator wordDisplayIterator;
@@ -26,7 +28,7 @@ class AppView extends PolymerElement {
   // life-cycle method called by the Polymer framework when the element is attached to the DOM
   @override void attached() {
     super.attached();
-    print("$CLASS_NAME::attached()");
+    log.info("$runtimeType::attached()");
 
     wordDisplayIterator = $["word-iterator"];
   }
@@ -36,13 +38,13 @@ class AppView extends PolymerElement {
   }
 
   void nextSlide(Event event, var detail, Element target) {
-    print("$CLASS_NAME::nextSlide()");
+    log.info("$runtimeType::nextSlide()");
 
     wordDisplayIterator.next();
   }
 
   void prevSlide(Event event, var detail, Element target) {
-    print("$CLASS_NAME::prevSlide()");
+    log.info("$runtimeType::prevSlide()");
 
     wordDisplayIterator.prev();
   }
@@ -52,7 +54,7 @@ class AppView extends PolymerElement {
   }
 
   void wordListSelectionChanged(Event event, var detail, Element target) {
-    print("$CLASS_NAME::wordListSelectionChanged()");
+    log.info("$runtimeType::wordListSelectionChanged()");
 
     submitEnabled = model.mapList.any((Map list) => list['selected']);
   }
