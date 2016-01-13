@@ -2,16 +2,16 @@
 
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
-
     <title>Sight Word Helper</title>
 
-    <!-- import custom element HTML -->
-    <link rel="import" href="packages/sight_word_helper/views/app_view/app_view.html">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- initialize Polymer -->
-    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <script>
+      window.Polymer = window.Polymer || {};
+      window.Polymer.dom = 'shadow';
+    </script>
     
     <style>
       @font-face {
@@ -21,7 +21,10 @@
     </style>
   </head>
 
-  <body fullbleed unresolved touch="auto">
-    <app-view layout vertical></app-view>
+  <body unresolved class="fullbleed">
+    <main-app class="fit layout vertical">Loading...</main-app>
+
+    <script src="index.dart" type="application/dart"></script>
+    <script src="packages/browser/dart.js"></script>
   </body>
 </html>

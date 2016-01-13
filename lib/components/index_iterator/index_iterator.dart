@@ -2,7 +2,7 @@ library index_iterator;
 
 import 'dart:async';
 import 'package:polymer/polymer.dart';
-import '../../model/global.dart';
+import '../../services/logger.dart';
 
 @CustomTag('index-iterator')
 class IndexIterator extends PolymerElement {

@@ -1,0 +1,119 @@
+<dom-module id="main-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+
+        --paper-card-header: {
+          display: none;
+        };
+      }
+
+      paper-checkbox {
+        cursor: default;
+        margin: 5px;
+      }
+
+      paper-button, paper-icon-button {
+        cursor: default;
+        text-transform: none;
+      }
+
+      .user-select-none {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      .word-slide {
+        font-size: 75px;
+        font-family: 'ABeeZee', sans-serif;
+      }
+
+      #slideshow {
+        width: 400px;
+        height: 150px;
+        margin: 10px;
+      }
+
+      #phrase-list {
+        font-family: 'ABeeZee', sans-serif;
+        font-size: 24px;
+      }
+
+      .card {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 5px;
+      }
+    </style>
+
+    <app-model id="model" on-word-list-updated="wordListUpdated"></app-model>
+
+    <paper-drawer-panel id="drawer-panel">
+      <!-- Drawer Scroll Header Panel -->
+      <paper-header-panel drawer fixed>
+
+        <!-- Drawer Toolbar -->
+        <paper-toolbar id="drawerToolbar">
+          <span class="paper-font-title">Word Lists</span>
+        </paper-toolbar>
+
+        <!-- Drawer Content -->
+        <div class="content layout vertical">
+          <template is="dom-repeat" items="{{model.mapList}}">
+            <paper-checkbox checked="{{item.selected}}" on-change="wordListSelectionChanged">{{item.displayName}}</paper-checkbox>
+          </template>
+
+          <paper-button raised on-tap="updateWordList" disabled$="{{!submitEnabled}}">Submit</paper-button>
+        </div>
+       </paper-header-panel>
+
+      <!-- Main Area -->
+      <paper-header-panel id="main-panel" main condenses keep-condensed-header>
+
+        <!-- Main Toolbar -->
+        <paper-toolbar id="mainToolbar">
+          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+
+          <!-- Application name -->
+          <h2 class="app-title flex">Sight Words</h2>
+        </paper-toolbar>
+
+        <!-- Main Content -->
+        <div class="content fit layout vertical center">
+          <paper-card heading="Card Title">
+            <div class="card-content">Content</div>
+            <div class="card-actions">
+              <paper-icon-button icon="av:skip-previous" on-tap="prevSlide"></paper-icon-button>
+              <!--<paper-progress min="0" max="{{model.lastWordIndex}}" value="{{wordDisplayIterator.index}}"></paper-progress>-->
+              <paper-icon-button icon="av:skip-next" on-tap="nextSlide"></paper-icon-button>
+            </div>
+          </paper-card>
+        </div>
+      </paper-header-panel>
+    </paper-drawer-panel>
+
+    <!--<div class="content user-select-none" layout vertical center fit>-->
+      <!--<index-iterator id="word-iterator" endIndex="{{model.wordList.length - 1}}" loop on-index-changed="{{slideshowIndexChanged}}"></index-iterator>-->
+      <!--<core-animated-pages id="slideshow" selected="{{wordDisplayIterator.index}}" style="margin-top: 20px;" layout vertical>-->
+        <!--<template repeat="{{word in model.wordList}}">-->
+          <!--<section layout vertical center-center>-->
+            <!--<div class="card" fit>-->
+              <!--<div class="word-slide" is="html-display" htmlContent="{{word}}"></div>-->
+            <!--</div>-->
+          <!--</section>-->
+        <!--</template>-->
+      <!--</core-animated-pages>-->
+
+      <!--<ul id="phrase-list" style="margin-top: 20px;" class="list-group">-->
+        <!--<template repeat="{{phrase in model.phraseList}}">-->
+          <!--<li class="list-group-item"><div is="html-display" htmlContent="{{phrase}}"></div></li>-->
+        <!--</template>-->
+      <!--</ul>-->
+    <!--</div>-->
+  </template>
+</dom-module>

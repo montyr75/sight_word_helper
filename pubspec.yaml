@@ -1,14 +1,26 @@
 name: sight_word_helper
+version: 0.0.1
 description: A Polymer Dart application that flashes sight words to assist in learning or teaching to read.
+
+environment:
+  sdk: '>=1.9.0 <2.0.0'
+
 dependencies:
-  core_elements: any
-  paper_elements: any
-  polymer: any
+  browser: ^0.10.0
+  polymer_elements: ^1.0.0-rc.6
+  logging: any
   intl: any
+  autonotify_observe: ^1.0.0-rc.10
+  dart_to_js_script_rewriter: ^0.1.0
+
 transformers:
-- polymer:
-    entry_points: web/index.html
+- autonotify_observe:
+    entry_points:
+    - web/index.html
 - $dart2js:
-    checked: false
+    $include: '**/*.bootstrap.initialize.dart'
     minify: true
-    commandLineOptions: ['--trust-type-annotations', '--trust-primitives']
+    commandLineOptions:
+    - --trust-type-annotations
+    - --trust-primitives
+- dart_to_js_script_rewriter
