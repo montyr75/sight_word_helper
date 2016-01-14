@@ -26,6 +26,8 @@ class AppModel extends PolymerElement with AutonotifyBehavior, Observable {
   @observable List<String> wordList;    // current working word list
   @observable List<String> phraseList;  // current working phrase list
 
+  @observable @property int lastWordIndex;
+
   AppModel.created() : super.created();
 
   void ready() {
@@ -83,6 +85,8 @@ class AppModel extends PolymerElement with AutonotifyBehavior, Observable {
   // this getter allows Polymer HTML to bind to IMAGES_PATH
   String get images_path => IMAGES_PATH;
 
-  @property
-  int get lastWordIndex => wordList != null && wordList.isNotEmpty ? wordList.length -1 : 0;
+  @Observe("wordList")
+  void computeLastWordIndex(List<String> wordList) {
+    lastWordIndex = wordList != null && wordList.isNotEmpty ? wordList.length -1 : 0;
+  }
 }

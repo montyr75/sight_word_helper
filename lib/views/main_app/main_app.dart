@@ -22,15 +22,15 @@ import 'package:web_components/web_components.dart' show HtmlImport;
 
 import '../../services/logger.dart';
 import '../../model/app_model/app_model.dart';
-//import '../../components/index_iterator/index_iterator.dart';
+import '../../components/index_iterator/index_iterator.dart';
 
 @PolymerRegister('main-app')
 class MainApp extends PolymerElement with AutonotifyBehavior, Observable {
 
   @observable AppModel model;
   @observable bool submitEnabled = true;
-//  @observable IndexIterator wordDisplayIterator;
 
+  @observable IndexIterator wordDisplayIterator;
   PaperDrawerPanel _drawerPanel;
 
 //  @observable bool testCheck = true;
@@ -43,14 +43,14 @@ class MainApp extends PolymerElement with AutonotifyBehavior, Observable {
     model = $['model'];
     _drawerPanel = $['drawer-panel'];
 
-//    wordDisplayIterator = $["word-iterator"];
+    wordDisplayIterator = $["word-iterator"];
   }
 
   @reflectable
   void wordListUpdated([_, __]) {
     log.info("$runtimeType::wordListUpdated()");
 
-//    wordDisplayIterator.reset();
+    wordDisplayIterator.reset();
   }
 
   testCheckChanged(bool newValue, bool oldValue) {
@@ -61,16 +61,17 @@ class MainApp extends PolymerElement with AutonotifyBehavior, Observable {
   void nextSlide([_, __]) {
     log.info("$runtimeType::nextSlide()");
 
-//    wordDisplayIterator.next();
+    wordDisplayIterator.next();
   }
 
   @reflectable
   void prevSlide([_, __]) {
     log.info("$runtimeType::prevSlide()");
 
-//    wordDisplayIterator.prev();
+    wordDisplayIterator.prev();
   }
 
+  @reflectable
   void slideshowIndexChanged(Event event, int detail) {
 //    model.updatePhraseList(model.wordList[detail]);
   }

@@ -85,6 +85,8 @@
 
         <!-- Main Content -->
         <div class="content fit layout vertical center">
+          <index-iterator id="word-iterator" end-index="[[model.lastWordIndex]]" loop on-index-changed="slideshowIndexChanged"></index-iterator>
+
           <paper-card heading="Card Title">
             <div class="card-content">Content</div>
             <div class="card-actions">

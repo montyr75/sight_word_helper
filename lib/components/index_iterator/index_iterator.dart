@@ -1,38 +1,54 @@
-library index_iterator;
+@HtmlImport('index_iterator.html')
+library lib.index_iterator;
 
 import 'dart:async';
+
+import "package:polymer_autonotify/polymer_autonotify.dart";
+import "package:observe/observe.dart";
 import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart' show HtmlImport;
+
 import '../../services/logger.dart';
 
-@CustomTag('index-iterator')
-class IndexIterator extends PolymerElement {
+@PolymerRegister('index-iterator')
+class IndexIterator extends PolymerElement with AutonotifyBehavior, Observable {
 
+  // states
   static const String STOPPED = "STOPPED";
   static const String PLAYING = "PLAYING";
   static const String PAUSED = "PAUSED";
 
-  @published int index = 0;           // the current index
-  @published int startIndex = 0;      // the starting index
-  @published int endIndex;            // the ending index
-  @published int step = 1;            // how far, and in which direction, to step with prev() or next()
-  @published num interval = 1;        // interval, in seconds, between index changes
-  @published bool loop = false;       // should the index loop back to the beginning?
-  @published bool autoStart = false;  // should the timer start automatically?
+  @observable @Property(notify: true, observer: 'indexChanged')
+  int index = 0;           // the current index
 
-  @observable String state = STOPPED;
+  @observable @Property(notify: true, observer: 'startIndexChanged')
+  int startIndex = 0;      // the starting index
+
+  @observable @Property(notify: true, observer: 'endIndexChanged')
+  int endIndex;            // the ending index
+
+  @observable @Property(notify: true)
+  int step = 1;            // how far, and in which direction, to step with prev() or next()
+
+  @observable @Property(notify: true, observer: 'intervalChanged')
+  num interval = 1;        // interval, in seconds, between index changes
+
+  @observable @Property(notify: true)
+  bool loop = false;       // should the index loop back to the beginning?
+
+  @observable @Property(notify: true)
+  bool autoStart = false;  // should the timer start automatically?
+
+  @observable
+  String state = STOPPED;
 
   Timer _timer;
   Duration _duration;
 
   IndexIterator.created() : super.created();
 
-  @override void attached() {
-    super.attached();
-    log.info("$runtimeType::attached() -- $endIndex");
-
-    if (autoStart && endIndex != null) {
-      start();
-    }
+  void ready() {
+    log.info("$runtimeType::ready()");
   }
 
   void _setupDuration() {
@@ -46,8 +62,9 @@ class IndexIterator extends PolymerElement {
     }
   }
 
-  // this is the only required attribute
-  void endIndexChanged([oldValue]) {
+  // "endIndex" is the only required attribute
+  @reflectable
+  void endIndexChanged(newValue, oldValue) {
     log.info("$runtimeType::endIndexChanged(): $endIndex");
 
     if (autoStart && endIndex != null) {
@@ -56,7 +73,8 @@ class IndexIterator extends PolymerElement {
   }
 
   // respond to any change in the "interval" attribute
-  void intervalChanged([oldValue]) {
+  @reflectable
+  void intervalChanged([newValue, oldValue]) {
     log.info("$runtimeType::intervalChanged(): $interval");
 
     if (interval == null || interval <= 0) {
@@ -73,11 +91,13 @@ class IndexIterator extends PolymerElement {
     }
   }
 
-  void startIndexChanged(oldvalue) {
+  @reflectable
+  void startIndexChanged(newValue, oldvalue) {
     reset();
   }
 
-  void indexChanged(oldValue) {
+  @reflectable
+  void indexChanged(newValue, oldValue) {
     fire('index-changed', detail: index);
   }
 
@@ -140,7 +160,6 @@ class IndexIterator extends PolymerElement {
 
     if (nextAvailable) {
       index += step;
-      log.info("$runtimeType::next() -- $index");
     }
     else {
       if (loop) {
@@ -150,6 +169,8 @@ class IndexIterator extends PolymerElement {
         stop();
       }
     }
+
+    log.info("$runtimeType::next() -- $index");
   }
 
   void prev([Timer timer = null]) {
@@ -171,7 +192,6 @@ class IndexIterator extends PolymerElement {
 
     if (prevAvailable) {
       index -= step;
-      log.info("$runtimeType::prev() -- $index");
     }
     else {
       if (loop) {
@@ -181,5 +201,7 @@ class IndexIterator extends PolymerElement {
         stop();
       }
     }
+
+    log.info("$runtimeType::prev() -- $index");
   }
 }
