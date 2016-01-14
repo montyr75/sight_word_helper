@@ -34,8 +34,6 @@ class MainApp extends PolymerElement with AutonotifyBehavior, Observable {
   @observable IndexIterator wordDisplayIterator;
   PaperDrawerPanel _drawerPanel;
 
-  @observable @property String bullshit = "<b>Boner</b>";
-
 //  @observable bool testCheck = true;
 
   MainApp.created() : super.created();
