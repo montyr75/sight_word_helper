@@ -1,5 +1,5 @@
 @HtmlImport('app_model.html')
-library sight_word_helper.lib.game_model;
+library sight_word_helper.lib.app_model;
 
 import 'dart:html';
 import 'dart:convert';

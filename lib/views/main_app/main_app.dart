@@ -23,6 +23,7 @@ import 'package:web_components/web_components.dart' show HtmlImport;
 import '../../services/logger.dart';
 import '../../model/app_model/app_model.dart';
 import '../../components/index_iterator/index_iterator.dart';
+import '../../components/html_display/html_display.dart';
 
 @PolymerRegister('main-app')
 class MainApp extends PolymerElement with AutonotifyBehavior, Observable {
@@ -32,6 +33,8 @@ class MainApp extends PolymerElement with AutonotifyBehavior, Observable {
 
   @observable IndexIterator wordDisplayIterator;
   PaperDrawerPanel _drawerPanel;
+
+  @observable @property String bullshit = "<b>Boner</b>";
 
 //  @observable bool testCheck = true;
 

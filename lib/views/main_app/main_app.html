@@ -65,7 +65,7 @@
         <!-- Drawer Content -->
         <div class="content layout vertical">
           <template is="dom-repeat" items="{{model.mapList}}">
-            <paper-checkbox checked="{{item.selected}}" on-change="wordListSelectionChanged">{{item.displayName}}</paper-checkbox>
+            <paper-checkbox checked="{{item.selected}}" on-change="wordListSelectionChanged">[[item.displayName]]</paper-checkbox>
           </template>
 
           <paper-button raised on-tap="updateWordList" disabled$="{{!submitEnabled}}">Submit</paper-button>
@@ -88,7 +88,7 @@
           <index-iterator id="word-iterator" end-index="[[model.lastWordIndex]]" loop on-index-changed="slideshowIndexChanged"></index-iterator>
 
           <paper-card heading="Card Title">
-            <div class="card-content">Content</div>
+            <div class="card-content"><div is="html-display" html-content="[[bullshit]]"></div></div>
             <div class="card-actions">
               <paper-icon-button icon="av:skip-previous" on-tap="prevSlide"></paper-icon-button>
               <!--<paper-progress min="0" max="{{model.lastWordIndex}}" value="{{wordDisplayIterator.index}}"></paper-progress>-->
@@ -100,12 +100,11 @@
     </paper-drawer-panel>
 
     <!--<div class="content user-select-none" layout vertical center fit>-->
-      <!--<index-iterator id="word-iterator" endIndex="{{model.wordList.length - 1}}" loop on-index-changed="{{slideshowIndexChanged}}"></index-iterator>-->
       <!--<core-animated-pages id="slideshow" selected="{{wordDisplayIterator.index}}" style="margin-top: 20px;" layout vertical>-->
         <!--<template repeat="{{word in model.wordList}}">-->
           <!--<section layout vertical center-center>-->
             <!--<div class="card" fit>-->
-              <!--<div class="word-slide" is="html-display" htmlContent="{{word}}"></div>-->
+              <!--<div class="word-slide" is="html-display" html-content="[[word]]"></div>-->
             <!--</div>-->
           <!--</section>-->
         <!--</template>-->
