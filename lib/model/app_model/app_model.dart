@@ -20,11 +20,11 @@ class AppModel extends PolymerElement with AutonotifyBehavior, Observable {
   static const String PHRASE_DATA_URL = "resources/data/phrases.json";
   static const String IMAGES_PATH = "resources/images/";
 
-  @observable List<Map> mapList;
+  @observable @property List<Map> mapList;
   List<String> phrases;
 
-  @observable List<String> wordList;    // current working word list
-  @observable List<String> phraseList;  // current working phrase list
+  @observable @property List<String> wordList;    // current working word list
+  @observable @property List<String> phraseList;  // current working phrase list
 
   @observable @property int lastWordIndex;
 
@@ -61,7 +61,7 @@ class AppModel extends PolymerElement with AutonotifyBehavior, Observable {
       newWordList.shuffle();
     }
 
-    wordList = newWordList;
+    wordList = new ObservableList.from(newWordList);
 
     if (wordList.isNotEmpty) {
       updatePhraseList(wordList.first);
@@ -79,7 +79,7 @@ class AppModel extends PolymerElement with AutonotifyBehavior, Observable {
     List<String> allPhrases = phrases.where((String phrase) => phrase.contains(exp)).toList()..shuffle();
     List<String> culledPhrases = allPhrases.take(3).toList();
 
-    phraseList = culledPhrases.map((String phrase) => phrase.replaceAllMapped(exp, (Match m) => "<strong>${m[0]}</strong>")).toList();
+    phraseList = new ObservableList.from(culledPhrases.map((String phrase) => phrase.replaceAllMapped(exp, (Match m) => "<strong>${m[0]}</strong>")).toList());
   }
 
   // this getter allows Polymer HTML to bind to IMAGES_PATH

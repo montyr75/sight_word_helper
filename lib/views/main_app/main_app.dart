@@ -28,10 +28,10 @@ import '../../components/html_display/html_display.dart';
 @PolymerRegister('main-app')
 class MainApp extends PolymerElement with AutonotifyBehavior, Observable {
 
-  @observable AppModel model;
-  @observable bool submitEnabled = true;
+  @observable @property AppModel model;
+  @observable @property bool submitEnabled = true;
 
-  @observable IndexIterator wordDisplayIterator;
+  @observable @property IndexIterator wordDisplayIterator;
   PaperDrawerPanel _drawerPanel;
 
 //  @observable bool testCheck = true;
