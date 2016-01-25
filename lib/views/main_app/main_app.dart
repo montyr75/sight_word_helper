@@ -15,6 +15,7 @@ import 'package:polymer_elements/paper_icon_button.dart';
 import 'package:polymer_elements/paper_material.dart';
 import 'package:polymer_elements/paper_checkbox.dart';
 import 'package:polymer_elements/paper_card.dart';
+import 'package:polymer_elements/neon_animated_pages.dart';
 import "package:polymer_autonotify/polymer_autonotify.dart";
 import "package:observe/observe.dart";
 import 'package:polymer/polymer.dart';

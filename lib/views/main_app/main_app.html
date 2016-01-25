@@ -30,11 +30,12 @@
       .word-slide {
         font-size: 75px;
         font-family: 'ABeeZee', sans-serif;
+        text-align: center;
       }
 
       #slideshow {
         width: 400px;
-        height: 150px;
+        height: 90px;
         margin: 10px;
       }
 
@@ -43,9 +44,7 @@
         font-size: 24px;
       }
 
-      .card {
-        border: 1px solid #ccc;
-        padding: 10px;
+      paper-card {
         margin: 5px;
       }
     </style>
@@ -87,7 +86,15 @@
           <index-iterator id="word-iterator" end-index="[[model.lastWordIndex]]" loop on-index-changed="slideshowIndexChanged"></index-iterator>
 
           <paper-card heading="Card Title">
-            <div class="card-content"></div>
+            <div id="slideshow" class="card-content layout vertical">
+              <neon-animated-pages class="fit" selected="[[wordDisplayIterator.index]]">
+               <template is="dom-repeat" items="[[model.wordList]]">
+                  <section>
+                    <div class="word-slide" is="html-display" html-content="[[item]]"></div>
+                  </section>
+                </template>
+              </neon-animated-pages>
+            </div>
             <div class="card-actions">
               <paper-icon-button icon="av:skip-previous" on-tap="prevSlide"></paper-icon-button>
               <!--<paper-progress min="0" max="{{model.lastWordIndex}}" value="{{wordDisplayIterator.index}}"></paper-progress>-->
@@ -98,16 +105,7 @@
       </paper-header-panel>
     </paper-drawer-panel>
 
-    <!--<div class="content user-select-none" layout vertical center fit>-->
-      <!--<core-animated-pages id="slideshow" selected="{{wordDisplayIterator.index}}" style="margin-top: 20px;" layout vertical>-->
-        <!--<template repeat="{{word in model.wordList}}">-->
-          <!--<section layout vertical center-center>-->
-            <!--<div class="card" fit>-->
-              <!--<div class="word-slide" is="html-display" html-content="[[word]]"></div>-->
-            <!--</div>-->
-          <!--</section>-->
-        <!--</template>-->
-      <!--</core-animated-pages>-->
+    <!-- USE SOMETHING LIKE paper-item FOR THIS LIST INSTEAD OF BOOTSTRAP -->
 
       <!--<ul id="phrase-list" style="margin-top: 20px;" class="list-group">-->
         <!--<template repeat="{{phrase in model.phraseList}}">-->
