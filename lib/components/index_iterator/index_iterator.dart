@@ -98,7 +98,7 @@ class IndexIterator extends PolymerElement with AutonotifyBehavior, Observable {
 
   @reflectable
   void indexChanged(newValue, oldValue) {
-    fire('index-changed', detail: index);
+    fire('changed', detail: newValue);
   }
 
   void start() {

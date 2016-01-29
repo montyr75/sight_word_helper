@@ -1,4 +1,5 @@
 <dom-module id="main-app">
+  <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet' type='text/css'>
   <template>
     <style>
       :host {
@@ -7,14 +8,13 @@
         --paper-card-header: {
           display: none;
         };
+
+        --paper-item-focused-before: {
+          background: none;
+        };
       }
 
-      paper-checkbox {
-        cursor: default;
-        margin: 5px;
-      }
-
-      paper-button, paper-icon-button {
+      paper-button, paper-icon-button, paper-checkbox {
         cursor: default;
         text-transform: none;
       }
@@ -25,6 +25,7 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+        cursor: default;
       }
 
       .word-slide {
@@ -40,6 +41,10 @@
       }
 
       #phrase-list {
+        margin: 10px;
+      }
+
+      .phrase {
         font-family: 'ABeeZee', sans-serif;
         font-size: 24px;
       }
@@ -62,8 +67,13 @@
 
         <!-- Drawer Content -->
         <div class="content layout vertical">
-          <template is="dom-repeat" items="{{model.mapList}}">
-            <paper-checkbox checked="{{item.selected}}" on-change="wordListSelectionChanged">[[item.displayName]]</paper-checkbox>
+          <template is="dom-repeat" items="[[model.wordLists]]">
+            <paper-item role="menuitemcheckbox" class="user-select-none" tabindex="-1">
+              <paper-item-body>
+                [[item.displayName]]
+              </paper-item-body>
+              <paper-checkbox checked="{{item.selected}}" on-change="wordListSelectionChanged"></paper-checkbox>
+            </paper-item>
           </template>
 
           <paper-button raised on-tap="updateWordList" disabled$="{{!submitEnabled}}">Submit</paper-button>
@@ -83,35 +93,34 @@
 
         <!-- Main Content -->
         <div class="content fit layout vertical center">
-          <index-iterator id="word-iterator" end-index="[[model.lastWordIndex]]" loop on-index-changed="slideshowIndexChanged"></index-iterator>
+          <index-iterator id="word-iterator" end-index="[[model.lastWordIndex]]" loop on-changed="wordListIndexChanged"></index-iterator>
 
           <paper-card heading="Card Title">
             <div id="slideshow" class="card-content layout vertical">
-              <neon-animated-pages class="fit" selected="[[wordDisplayIterator.index]]">
+              <iron-pages class="fit" selected="[[wordDisplayIterator.index]]">
                <template is="dom-repeat" items="[[model.wordList]]">
                   <section>
                     <div class="word-slide" is="html-display" html-content="[[item]]"></div>
                   </section>
                 </template>
-              </neon-animated-pages>
+              </iron-pages>
             </div>
-            <div class="card-actions">
+            <div class="card-actions layout horizontal center justified">
               <paper-icon-button icon="av:skip-previous" on-tap="prevSlide"></paper-icon-button>
-              <!--<paper-progress min="0" max="{{model.lastWordIndex}}" value="{{wordDisplayIterator.index}}"></paper-progress>-->
+              <paper-progress min="0" max="[[model.lastWordIndex]]" value="[[wordDisplayIterator.index]]"></paper-progress>
               <paper-icon-button icon="av:skip-next" on-tap="nextSlide"></paper-icon-button>
             </div>
           </paper-card>
+
+          <paper-material id="phrase-list" elevation="1">
+            <template is="dom-repeat" items="[[model.phraseList]]">
+              <paper-item tabindex="-1">
+                <div class="phrase" is="html-display" html-content="[[item]]"></div>
+              </paper-item>
+            </template>
+          </paper-material>
         </div>
       </paper-header-panel>
     </paper-drawer-panel>
-
-    <!-- USE SOMETHING LIKE paper-item FOR THIS LIST INSTEAD OF BOOTSTRAP -->
-
-      <!--<ul id="phrase-list" style="margin-top: 20px;" class="list-group">-->
-        <!--<template repeat="{{phrase in model.phraseList}}">-->
-          <!--<li class="list-group-item"><div is="html-display" htmlContent="{{phrase}}"></div></li>-->
-        <!--</template>-->
-      <!--</ul>-->
-    <!--</div>-->
   </template>
 </dom-module>

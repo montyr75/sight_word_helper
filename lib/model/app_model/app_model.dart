@@ -5,12 +5,12 @@ import 'dart:html';
 import 'dart:convert';
 import 'dart:async';
 
-import 'package:polymer_elements/iron_flex_layout/classes/iron_flex_layout.dart';
 import "package:polymer_autonotify/polymer_autonotify.dart";
 import "package:observe/observe.dart";
 import 'package:polymer/polymer.dart';
 import 'package:web_components/web_components.dart' show HtmlImport;
 
+import '../../model/word_list.dart';
 import '../../services/logger.dart';
 
 @PolymerRegister('app-model')
@@ -20,7 +20,7 @@ class AppModel extends PolymerElement with AutonotifyBehavior, Observable {
   static const String PHRASE_DATA_URL = "resources/data/phrases.json";
   static const String IMAGES_PATH = "resources/images/";
 
-  @observable @property List<Map> mapList;
+  @observable @property List<WordList> wordLists;
   List<String> phrases;
 
   @observable @property List<String> wordList;    // current working word list
@@ -34,7 +34,8 @@ class AppModel extends PolymerElement with AutonotifyBehavior, Observable {
     log.info("$runtimeType::ready()");
 
     Future wordsFuture = HttpRequest.getString(WORD_DATA_URL).then((String fileContents) {
-      mapList = new ObservableList.from(JSON.decode(fileContents));
+      List<Map> mapList = JSON.decode(fileContents);
+      wordLists = new ObservableList.from(mapList.map((Map map) => new WordList.fromMap(map)));
     }).catchError((Error error) => log.severe(error));
 
     Future phrasesFuture = HttpRequest.getString(PHRASE_DATA_URL).then((String fileContents) {
@@ -51,9 +52,9 @@ class AppModel extends PolymerElement with AutonotifyBehavior, Observable {
 
     List<String> newWordList = [];
 
-    mapList.forEach((Map list) {
-      if (list['selected']) {
-        newWordList.addAll(list['wordList']);
+    wordLists.forEach((WordList list) {
+      if (list.selected) {
+        newWordList.addAll(list.wordList);
       }
     });
 

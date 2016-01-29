@@ -25,8 +25,6 @@ class HTMLDisplay extends DivElement with PolymerBase, PolymerMixin {
       htmlContent = "";
     }
 
-    // creating a DocumentFragment allows for HTML parsing
-    Polymer.dom(root).removeChild(Polymer.dom(root).firstChild);
-    Polymer.dom(root).append(new DocumentFragment.html("$htmlContent"));
+    Polymer.dom(root).innerHtml = htmlContent;
   }
 }
