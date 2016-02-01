@@ -68,8 +68,6 @@ class AppModel extends PolymerElement with AutonotifyBehavior, Observable {
       updatePhraseList(wordList.first);
     }
 
-    log.info("wordList: $wordList");
-
     fire("word-list-updated");
   }
 
