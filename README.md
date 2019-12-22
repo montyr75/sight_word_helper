@@ -1,4 +1,4 @@
 Sight Word Helper
 ======
 
-A simple app that flashes sight words to help in learning to read, written with Polymer Dart.
+A simple app that flashes sight words to help in learning to read.
